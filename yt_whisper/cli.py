@@ -23,6 +23,9 @@ def main():
                         "transcribe", "translate"], help="whether to perform X->X speech recognition ('transcribe') or X->English translation ('translate')")
     parser.add_argument("--device", choices=("cpu", "cuda"), help="device to use for PyTorch inference")
 
+    parser.add_argument("--break-lines", type=int, default=0, 
+                        help="Whether to break lines into a bottom-heavy pyramid shape if line length exceeds N characters. 0 disables line breaking.")
+
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
     output_dir: str = args.pop("output_dir")
@@ -36,6 +39,7 @@ def main():
 
     model = whisper.load_model(model_name, device=device)
     audios = get_audio(args.pop("video"))
+    break_lines = args.pop("break_lines")
 
     for title, audio_path in audios.items():
         warnings.filterwarnings("ignore")
@@ -44,7 +48,7 @@ def main():
 
         vtt_path = os.path.join(output_dir, f"{slugify(title)}.vtt")
         with open(vtt_path, 'w', encoding="utf-8") as vtt:
-            write_vtt(result["segments"], file=vtt)
+            write_vtt(result["segments"], file=vtt, line_length=break_lines)
 
         # print saved message with absolute path
         print("Saved VTT to", os.path.abspath(vtt_path))
