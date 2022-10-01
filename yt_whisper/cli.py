@@ -30,6 +30,9 @@ def main():
                         help="Whether to break lines into a bottom-heavy pyramid shape if line length exceeds N characters. 0 disables line breaking.")
     parser.add_argument("--device", choices=("cpu", "cuda"), help="device to use for PyTorch inference")
 
+    parser.add_argument("--break-lines", type=int, default=0, 
+                        help="Whether to break lines into a bottom-heavy pyramid shape if line length exceeds N characters. 0 disables line breaking.")
+
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
     output_dir: str = args.pop("output_dir")
