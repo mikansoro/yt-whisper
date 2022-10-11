@@ -72,7 +72,7 @@ def main():
                 print("Saved SRT to", os.path.abspath(srt_path))
 
 
-def get_audio(video_paths:List[str], temp_dir:tempfile.TemporaryDirectory):   
+def get_audio(video_paths:List[str], temp_dir:tempfile.TemporaryDirectory):
     ydl = yt_dlp.YoutubeDL({
         'quiet': True,
         'verbose': False,
