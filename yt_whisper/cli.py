@@ -30,12 +30,6 @@ def main():
                         help="Whether to break lines into a bottom-heavy pyramid shape if line length exceeds N characters. 0 disables line breaking.")
     parser.add_argument("--device", choices=("cpu", "cuda"), help="device to use for PyTorch inference")
 
-    parser.add_argument("--break-lines", type=int, default=0, 
-                        help="Whether to break lines into a bottom-heavy pyramid shape if line length exceeds N characters. 0 disables line breaking.")
-    
-    parser.add_argument("--language", type=str, default=None, choices=sorted(LANGUAGES.keys()) + sorted([k.title() for k in TO_LANGUAGE_CODE.keys()]), 
-                        help="language spoken in the audio, specify None to perform language detection")
-
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
     output_dir: str = args.pop("output_dir")
