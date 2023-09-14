@@ -39,6 +39,11 @@ Run the following to view all available options:
 
     yt_whisper --help
 
+## CUDA on Windows
+1. Install the CUDA driver toolkit from nvidia: https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html
+2. Install this package in a venv `pip install git+https://github.com/mikansoro/yt-whisper.git`
+3. Replace pytorch with the cuda enabled version: `pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118` (https://pytorch.org/get-started/locally)
+
 ## License
 
 This script is open-source and licensed under the MIT License. For more details, check the [LICENSE](LICENSE) file.
