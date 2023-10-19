@@ -1,4 +1,5 @@
 import os
+import subprocess
 from typing import List
 import whisper
 from whisper.tokenizer import LANGUAGES, TO_LANGUAGE_CODE
@@ -7,7 +8,6 @@ import warnings
 import yt_dlp
 from .utils import slugify, str2bool, write_srt, write_vtt
 import tempfile
-import ffmpeg
 
 def main():
     parser = argparse.ArgumentParser(
@@ -80,13 +80,13 @@ def get_audio(video_paths:List[str], temp_dir:tempfile.TemporaryDirectory):
     for video_path in video_paths:
         if os.path.exists(video_path):
             title = os.path.basename(video_path).split(".")[0]
-            audio_path = os.path.join(temp_dir, f"{title}.mp3")
-            (ffmpeg
-                .input(video_path)
-                .audio
-                .output(audio_path)
-                .run()
+            audio_path = os.path.join(temp_dir, f"{title}.aac")
+            print(
+                f'Extracting audio from {video_path} using ffmpeg...\n\n'
             )
+            ffmpeg_process = subprocess.run(['ffmpeg', '-i', video_path, '-n', '-acodec', 'copy', audio_path])
+            # subprocess.run(['ffmpeg', '-i', video_path, '-n', '-acodec', 'mp3', audio_path])
+            print('\nAudio extraction complete. Generating subtitles...')
             paths[title] = audio_path
         else:
             result = ydl.extract_info(video_path, download=True)
